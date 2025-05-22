@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
+import 'package:hackattack2025/navigation/route.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class GreenElevatedButton extends StatelessWidget {
@@ -102,7 +103,7 @@ class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
     super.key,
     required this.label,
-    required this.fontSize,
+    this.fontSize = 15,
     required this.destinationRoute,
     this.textColor = const Color(0xFF00796B), // default dark green
   });
@@ -111,7 +112,10 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        Navigator.pushNamed(context, destinationRoute);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          destinationRoute,
+          ModalRoute.withName(AppRoutes.roleselection),
+        );
       },
       child: Text(
         label,
@@ -119,6 +123,43 @@ class CustomTextButton extends StatelessWidget {
           fontSize: fontSize,
           color: textColor,
         ),
+      ),
+    );
+  }
+}
+
+class CheckButton extends StatefulWidget {
+  const CheckButton({super.key});
+
+  @override
+  State<CheckButton> createState() => _CheckButtonState();
+}
+
+class _CheckButtonState extends State<CheckButton> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isChecked = !isChecked;
+        });
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          color: isChecked ? const Color(0xFF006400) : Colors.transparent,
+          border: Border.all(
+            color: isChecked ? const Color(0xFF006400) : Colors.grey,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: isChecked
+            ? const Icon(Icons.check, color: Colors.white)
+            : const Icon(Icons.check, color: Color(0xFF006400)),
       ),
     );
   }

@@ -9,6 +9,7 @@ class AppRoutes {
   //Authentication route
   static const String userentry = '/Userentry';
   static const String signup = '/Signup';
+  static const String login = '/Login';
 
   //Normal User UI route
 
@@ -22,6 +23,7 @@ class AppRoutes {
       //Authentication route
       userentry: (context) => const Userentry(),
       signup: (context) => const Signup(),
+      login: (context) => const Login(),
 
       //Normal User UI route
 

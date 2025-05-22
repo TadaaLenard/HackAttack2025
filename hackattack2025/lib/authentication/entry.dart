@@ -64,7 +64,7 @@ class _UserentryState extends State<Userentry> {
               ),
               const GreenElevatedButton(
                 text: 'Sign In',
-                navigateTo: AppRoutes.signup,
+                navigateTo: AppRoutes.login,
               ),
               const SizedBox(
                 height: 10,

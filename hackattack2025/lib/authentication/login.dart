@@ -3,21 +3,17 @@ import 'package:hackattack2025/components/customizedbutton.dart';
 import 'package:hackattack2025/components/labeltextfield.dart';
 import 'package:hackattack2025/navigation/route.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<Signup> createState() => _SignupState();
+  State<Login> createState() => _LoginState();
 }
 
-class _SignupState extends State<Signup> {
+class _LoginState extends State<Login> {
   final paddingval = 20.0;
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,7 @@ class _SignupState extends State<Signup> {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Sign Up',
+                    'Hi, Welcome!',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 30,
@@ -44,27 +40,6 @@ class _SignupState extends State<Signup> {
                 ),
                 SizedBox(
                   height: paddingval,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: LabeledTextField(
-                        label: 'First Name',
-                        placeholder: 'John',
-                        controller: firstNameController,
-                      ),
-                    ),
-                    SizedBox(
-                      width: paddingval,
-                    ),
-                    Expanded(
-                      child: LabeledTextField(
-                        label: 'Last Name',
-                        placeholder: 'Doe',
-                        controller: lastNameController,
-                      ),
-                    ),
-                  ],
                 ),
                 SizedBox(
                   height: paddingval,
@@ -78,7 +53,7 @@ class _SignupState extends State<Signup> {
                   height: paddingval,
                 ),
                 LabeledTextField(
-                  label: 'Create a password',
+                  label: 'Password',
                   placeholder: 'must be 8 characters',
                   controller: passwordController,
                   isPrivate: true,
@@ -86,17 +61,30 @@ class _SignupState extends State<Signup> {
                 SizedBox(
                   height: paddingval,
                 ),
-                LabeledTextField(
-                  label: 'Confirm password',
-                  placeholder: 'repeat password',
-                  controller: confirmPasswordController,
-                  isPrivate: true,
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        CheckButton(),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('Remember Me'),
+                      ],
+                    ),
+                    CustomTextButton(
+                      label: 'Forgot Password?',
+                      destinationRoute: AppRoutes.signup,
+                      textColor: Colors.black,
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: paddingval,
                 ),
                 const GreenElevatedButton(
-                    text: 'Sign Up', navigateTo: AppRoutes.signup),
+                    text: 'Log in', navigateTo: AppRoutes.signup),
                 SizedBox(
                   height: paddingval,
                 ),
@@ -108,7 +96,7 @@ class _SignupState extends State<Signup> {
                         thickness: 1,
                       ),
                     ),
-                    Text('  Or Register with  '),
+                    Text('  Or Login with  '),
                     Expanded(
                       child: Divider(
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -131,15 +119,15 @@ class _SignupState extends State<Signup> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account?',
+                        "Don't have an account?",
                         style: TextStyle(
                           fontSize: 17,
                         ),
                       ),
                       CustomTextButton(
-                        label: 'Log in',
+                        label: 'Sign up',
                         fontSize: 17,
-                        destinationRoute: AppRoutes.login,
+                        destinationRoute: AppRoutes.signup,
                       ),
                     ])
               ],
