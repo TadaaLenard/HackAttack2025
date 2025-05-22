@@ -1,0 +1,147 @@
+import 'package:flutter/material.dart';
+import 'package:hackattack2025/components/customizedbutton.dart';
+import 'package:hackattack2025/components/labeltextfield.dart';
+import 'package:hackattack2025/navigation/route.dart';
+
+class Signup extends StatefulWidget {
+  const Signup({super.key});
+
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
+  final paddingval = 20.0;
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(paddingval),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Sign Up',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: paddingval,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: LabeledTextField(
+                        label: 'First Name',
+                        placeholder: 'John',
+                        controller: firstNameController,
+                      ),
+                    ),
+                    SizedBox(
+                      width: paddingval,
+                    ),
+                    Expanded(
+                      child: LabeledTextField(
+                        label: 'Last Name',
+                        placeholder: 'Doe',
+                        controller: lastNameController,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: paddingval,
+                ),
+                LabeledTextField(
+                  label: 'Email',
+                  placeholder: 'example@gmail.com',
+                  controller: emailController,
+                ),
+                SizedBox(
+                  height: paddingval,
+                ),
+                LabeledTextField(
+                  label: 'Create a password',
+                  placeholder: 'must be 8 characters',
+                  controller: passwordController,
+                ),
+                SizedBox(
+                  height: paddingval,
+                ),
+                LabeledTextField(
+                  label: 'Confirm password',
+                  placeholder: 'repeat password',
+                  controller: confirmPasswordController,
+                ),
+                SizedBox(
+                  height: paddingval,
+                ),
+                const GreenElevatedButton(
+                    text: 'Sign Up', navigateTo: AppRoutes.signup),
+                SizedBox(
+                  height: paddingval,
+                ),
+                const Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        thickness: 1,
+                      ),
+                    ),
+                    Text('  Or Register with  '),
+                    Expanded(
+                      child: Divider(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: paddingval),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ThirdPartyElevatedButton(label: 'facebook'),
+                    ThirdPartyElevatedButton(label: 'google'),
+                    ThirdPartyElevatedButton(label: 'apple')
+                  ],
+                ),
+                SizedBox(height: paddingval),
+                const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Already have an account?',
+                        style: TextStyle(
+                          fontSize: 17,
+                        ),
+                      ),
+                      CustomTextButton(
+                        label: 'Log in',
+                        fontSize: 17,
+                        destinationRoute: '/signup',
+                      ),
+                    ])
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
