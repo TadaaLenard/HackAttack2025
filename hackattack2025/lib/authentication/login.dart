@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                     ),
                     CustomTextButton(
                       label: 'Forgot Password?',
-                      destinationRoute: AppRoutes.signup,
+                      destinationRoute: AppRoutes.forgetpassword,
                       textColor: Colors.black,
                     ),
                   ],

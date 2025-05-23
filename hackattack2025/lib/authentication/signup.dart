@@ -132,16 +132,13 @@ class _SignupState extends State<Signup> {
                     children: [
                       Text(
                         'Already have an account?',
-                        style: TextStyle(
-                          fontSize: 17,
-                        ),
+                        style: TextStyle(),
                       ),
                       CustomTextButton(
                         label: 'Log in',
-                        fontSize: 17,
                         destinationRoute: AppRoutes.login,
                       ),
-                    ])
+                    ]),
               ],
             ),
           ),

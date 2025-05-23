@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackattack2025/navigation/route.dart';
-import 'package:hackattack2025/roleselection.dart';
 
 void main() {
   runApp(const MyApp());

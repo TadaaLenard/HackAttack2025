@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LabeledTextField extends StatefulWidget {
   final String label;
@@ -30,7 +31,7 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
         Text(
           widget.label,
           style: const TextStyle(
-            fontSize: 17,
+            fontSize: 15,
             color: Colors.black,
           ),
         ),
@@ -59,6 +60,84 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class KeypadInputField extends StatefulWidget {
+  final int length;
+  final TextEditingController controller;
+
+  const KeypadInputField({
+    super.key,
+    required this.length,
+    required this.controller,
+  });
+
+  @override
+  _KeypadInputFieldState createState() => _KeypadInputFieldState();
+}
+
+class _KeypadInputFieldState extends State<KeypadInputField> {
+  late List<FocusNode> _focusNodes;
+  late List<TextEditingController> _controllers;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNodes = List.generate(widget.length, (_) => FocusNode());
+    _controllers = List.generate(widget.length, (_) => TextEditingController());
+  }
+
+  @override
+  void dispose() {
+    for (var fn in _focusNodes) {
+      fn.dispose();
+    }
+    for (var c in _controllers) {
+      c.dispose();
+    }
+    super.dispose();
+  }
+
+  void _updateMainController() {
+    widget.controller.text = _controllers.map((c) => c.text).join();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(widget.length, (index) {
+        return Container(
+          width: 60,
+          margin: const EdgeInsets.symmetric(horizontal: 5),
+          child: TextField(
+            controller: _controllers[index],
+            focusNode: _focusNodes[index],
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            maxLength: 1,
+            style: const TextStyle(fontSize: 20),
+            decoration: const InputDecoration(
+              counterText: '',
+              border: OutlineInputBorder(),
+            ),
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                if (index < widget.length - 1) {
+                  FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+                } else {
+                  _focusNodes[index].unfocus();
+                }
+              }
+              _updateMainController();
+            },
+            onSubmitted: (_) => _updateMainController(),
+          ),
+        );
+      }),
     );
   }
 }

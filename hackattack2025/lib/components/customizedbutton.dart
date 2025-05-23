@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
 import 'package:hackattack2025/navigation/route.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class GreenElevatedButton extends StatelessWidget {
   final String text;
@@ -17,7 +16,13 @@ class GreenElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, navigateTo);
+        (navigateTo == AppRoutes.login || navigateTo == AppRoutes.signup)
+            ? Navigator.pushNamedAndRemoveUntil(
+                context,
+                navigateTo,
+                ModalRoute.withName(AppRoutes.roleselection),
+              )
+            : Navigator.pushNamed(context, navigateTo);
       },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(300, 50),

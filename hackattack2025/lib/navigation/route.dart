@@ -10,6 +10,10 @@ class AppRoutes {
   static const String userentry = '/Userentry';
   static const String signup = '/Signup';
   static const String login = '/Login';
+  static const String forgetpassword = '/Forgetpassword';
+  static const String fpcode = '/Fpcode';
+  static const String resetpassword = '/Resetpassword';
+  static const String resetsuccess = '/Resetsuccess';
 
   //Normal User UI route
 
@@ -24,6 +28,10 @@ class AppRoutes {
       userentry: (context) => const Userentry(),
       signup: (context) => const Signup(),
       login: (context) => const Login(),
+      forgetpassword: (context) => const Forgetpassword(),
+      fpcode: (context) => const Fpcode(),
+      resetpassword: (context) => const Resetpassword(),
+      resetsuccess: (context) => const Resetsuccess(),
 
       //Normal User UI route
 
