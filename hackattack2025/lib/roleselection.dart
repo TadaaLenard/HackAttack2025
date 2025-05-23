@@ -88,7 +88,7 @@ class Roleselection extends StatelessWidget {
                       child: RoleOption(
                         label: 'Normal User',
                         onTap: () {
-                          // Navigator.pushNamed(context, AppRoutes.donorlogin);
+                          Navigator.pushNamed(context, AppRoutes.userentry);
                         },
                       ),
                     ),

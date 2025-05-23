@@ -84,7 +84,7 @@ class _LoginState extends State<Login> {
                   height: paddingval,
                 ),
                 const GreenElevatedButton(
-                    text: 'Log in', navigateTo: AppRoutes.signup),
+                    text: 'Log in', navigateTo: AppRoutes.login),
                 SizedBox(
                   height: paddingval,
                 ),
