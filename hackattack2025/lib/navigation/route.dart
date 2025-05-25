@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hackattack2025/IndustryUI/homepage.dart';
+import 'package:hackattack2025/IndustryUI/homepage/homepage.dart';
 import 'package:hackattack2025/roleselection.dart';
 import 'package:hackattack2025/authentication/authentication_module.dart';
 

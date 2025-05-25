@@ -162,10 +162,10 @@ class _MonitorOptionState extends State<MonitorOption> {
         ),
         if (_showAlert)
           Positioned(
-            top: -6,
+            top: -20,
             right: -6,
             child: Container(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.red,
                 shape: BoxShape.circle,
@@ -178,7 +178,7 @@ class _MonitorOptionState extends State<MonitorOption> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 20,
                   ),
                 ),
               ),
