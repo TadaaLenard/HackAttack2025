@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackattack2025/IndustryUI/homepage.dart';
 import 'package:hackattack2025/roleselection.dart';
 import 'package:hackattack2025/authentication/authentication_module.dart';
 
@@ -9,6 +10,7 @@ class AppRoutes {
   //Authentication route
   static const String userentry = '/Userentry';
   static const String signup = '/Signup';
+  static const String suaddress = '/SUaddress';
   static const String login = '/Login';
   static const String forgetpassword = '/Forgetpassword';
   static const String fpcode = '/Fpcode';
@@ -18,6 +20,7 @@ class AppRoutes {
   //Normal User UI route
 
   //Industry UI route
+  static const String industryhomepage = '/Industryhomepage';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -27,6 +30,7 @@ class AppRoutes {
       //Authentication route
       userentry: (context) => const Userentry(),
       signup: (context) => const Signup(),
+      suaddress: (context) => const SUaddress(),
       login: (context) => const Login(),
       forgetpassword: (context) => const Forgetpassword(),
       fpcode: (context) => const Fpcode(),
@@ -36,6 +40,7 @@ class AppRoutes {
       //Normal User UI route
 
       //Industry UI route
+      industryhomepage: (context) => const Industryhomepage(),
     };
   }
 }

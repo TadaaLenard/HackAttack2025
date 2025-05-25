@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+
+class Industrynavbar extends StatelessWidget {
+  const Industrynavbar({super.key});
+  final iconsize = 35.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0xFF078077),
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: HugeIcon(
+              icon: HugeIcons.strokeRoundedInternetAntenna01,
+              size: iconsize,
+              color: const Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.build,
+              color: Colors.white,
+              size: iconsize,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Material(
+              color: Colors.white,
+              shape: const CircleBorder(),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: HugeIcon(
+                  icon: HugeIcons.strokeRoundedHome01,
+                  size: iconsize,
+                  color: const Color.fromARGB(255, 0, 0, 0),
+                ),
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: HugeIcon(
+              icon: HugeIcons.strokeRoundedShoppingBag01,
+              size: iconsize,
+              color: const Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: HugeIcon(
+              icon: HugeIcons.strokeRoundedBot,
+              size: iconsize,
+              color: const Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
