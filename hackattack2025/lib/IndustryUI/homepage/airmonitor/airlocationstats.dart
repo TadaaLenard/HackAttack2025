@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hackattack2025/IndustryUI/homepage/airmonitor/airlocationinfo.dart';
 import 'package:hackattack2025/components/appbar.dart';
-import 'package:hackattack2025/components/customizedbutton.dart';
 import 'package:hackattack2025/components/navbar.dart';
-import 'package:hackattack2025/navigation/route.dart';
+import 'package:hackattack2025/IndustryUI/homepage/airmonitor/airsensorinfo.dart';
 
 class Airlocationstats extends StatefulWidget {
   final String label;
@@ -19,12 +18,16 @@ class _AirlocationstatsState extends State<Airlocationstats> {
   int _selectedIndex = 0;
 
   // Define the content for each tab based on the selected index
+  // Note: The Expanded widget is now handled in the build method, not here.
   Widget _buildTabContent(int index) {
     switch (index) {
       case 0:
+        // Locationcontent is assumed to be a scrollable or fixed-height widget
+        // that doesn't require an Expanded parent itself.
         return const Locationcontent();
       case 1:
-        return const Text('Sensor');
+        // Sensorscontent is designed to be expanded, so it will fill the space.
+        return Sensorscontent(label: widget.label);
       default:
         return const Center(child: Text('No Content'));
     }
@@ -42,52 +45,37 @@ class _AirlocationstatsState extends State<Airlocationstats> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(paddingval),
-                    child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start, // Align text to start
-                      children: [
-                        const Industryappbar(showBackButton: true),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Label: ${widget.label}',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                  // The TappableOptionsBar (now just the TabBar headers)
-                  TappableOptionsBar(
-                    tabs: myTabs,
-                    onTabChanged: (index) {
-                      setState(() {
-                        _selectedIndex = index; // Update the selected index
-                      });
-                    },
-                  ),
-                  // The content area, which changes based on _selectedIndex
-                  _buildTabContent(_selectedIndex),
-                ],
-              ),
+          // Top section: App Bar, Label, and TabBar. This part has a fixed height
+          // or is naturally sized based on its content.
+          Padding(
+            padding: EdgeInsets.all(paddingval),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Industryappbar(showBackButton: true),
+                const SizedBox(height: 10),
+                Text(
+                  widget.label,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
           ),
-          // Fixed button above the navbar
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: paddingval, vertical: 10),
-            color: Colors.white, // Background for the button area
-            child: const SizedBox(
-                width: double.infinity, // Make button full width
-                child: GreenElevatedButton(
-                    text: 'Download Full Dataset',
-                    navigateTo: AppRoutes.airlocationstats)),
+          // The TappableOptionsBar (TabBar headers)
+          TappableOptionsBar(
+            tabs: myTabs,
+            onTabChanged: (index) {
+              setState(() {
+                _selectedIndex = index; // Update the selected index
+              });
+            },
           ),
+
+          Expanded(
+            child: _buildTabContent(_selectedIndex),
+          ),
+          // Fixed button above the navbar
         ],
       ),
       bottomNavigationBar: const Industrynavbar(),
@@ -129,13 +117,26 @@ class _TappableOptionsBarState extends State<TappableOptionsBar>
     super.initState();
     _tabController = TabController(length: widget.tabs.length, vsync: this);
 
+    // Add listener to update parent's selected index
     _tabController.addListener(() {
-      // Notify the parent about the tab change
       if (!_tabController.indexIsChanging) {
-        // Only call when tab selection is final
         widget.onTabChanged(_tabController.index);
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant TappableOptionsBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.tabs.length != oldWidget.tabs.length) {
+      _tabController.dispose();
+      _tabController = TabController(length: widget.tabs.length, vsync: this);
+      _tabController.addListener(() {
+        if (!_tabController.indexIsChanging) {
+          widget.onTabChanged(_tabController.index);
+        }
+      });
+    }
   }
 
   @override
@@ -147,7 +148,6 @@ class _TappableOptionsBarState extends State<TappableOptionsBar>
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Removed Column and Expanded/TabBarView
       color: Colors.white,
       child: TabBar(
         controller: _tabController,
@@ -159,13 +159,11 @@ class _TappableOptionsBarState extends State<TappableOptionsBar>
             Colors.grey, // Use provided color or default
         labelStyle: widget.labelStyle ??
             const TextStyle(
-              // Use provided style or default
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
             ),
         unselectedLabelStyle: widget.unselectedLabelStyle ??
             const TextStyle(
-              // Use provided style or default
               fontWeight: FontWeight.normal,
               fontSize: 16.0,
             ),

@@ -56,3 +56,17 @@ class DaySchedule {
     required this.recommendations,
   });
 }
+
+class SensorData {
+  final String sensorId;
+  final String sensorType;
+  final String lastReading;
+  final String location;
+
+  const SensorData({
+    required this.sensorId,
+    required this.sensorType,
+    required this.lastReading,
+    required this.location,
+  });
+}

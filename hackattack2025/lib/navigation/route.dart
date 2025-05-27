@@ -25,6 +25,7 @@ class AppRoutes {
   static const String airlocationlist = '/Airlocationlist';
   static const String airlocationstats = '/Airlocationstats';
   static const String airlocationdetails = '/Airlocationdetails';
+  static const String airsensordata = '/Airsensordata';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -62,6 +63,22 @@ class AppRoutes {
           schedules = args;
         }
         return Locationdetails(dummySchedules: schedules);
+      },
+      // In your routes configuration (e.g., in main.dart or app_routes.dart)
+
+      airsensordata: (context) {
+        final args = ModalRoute.of(context)!.settings.arguments;
+        final SensorData sensordata = (args is SensorData)
+            ? args
+            : const SensorData(
+                sensorId:
+                    'Error', // Provide default/placeholder values for safety
+                sensorType: 'Unknown Sensor',
+                lastReading: 'N/A',
+                location: 'Unknown Location',
+              );
+
+        return Airsensordata(sensorData: sensordata);
       },
     };
   }
