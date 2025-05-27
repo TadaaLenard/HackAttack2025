@@ -1,0 +1,58 @@
+class SensorStack {
+  final String stackName;
+  final String lastReading;
+  final String status;
+
+  SensorStack({
+    required this.stackName,
+    required this.lastReading,
+    required this.status,
+  });
+}
+
+// Data models for our schedule
+class TimeSlot {
+  final String time;
+  final String status; // Status will determine the colors
+
+  TimeSlot({
+    required this.time,
+    required this.status,
+  });
+}
+
+/// Represents a single sensor reading.
+class SensorReading {
+  final String type;
+  final String unit;
+  final int value;
+
+  SensorReading({
+    required this.type,
+    required this.unit,
+    required this.value,
+  });
+}
+
+/// Represents a recommendation.
+class Recommendation {
+  final String text;
+
+  Recommendation({required this.text});
+}
+
+/// Represents the schedule for a specific day.
+class DaySchedule {
+  final String dayName;
+  final List<TimeSlot> timeSlots;
+  final List<SensorReading> sensorReadings;
+  final List<Recommendation> recommendations;
+  // Removed 'isSelected' from here
+
+  DaySchedule({
+    required this.dayName,
+    required this.timeSlots,
+    required this.sensorReadings,
+    required this.recommendations,
+  });
+}

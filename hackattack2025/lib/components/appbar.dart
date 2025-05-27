@@ -12,7 +12,7 @@ class Industryappbar extends StatefulWidget {
 
 class _IndustryappbarState extends State<Industryappbar> {
   final iconsize = 40.0;
-  final paddingval = 20.0;
+  final paddingval = 10.0;
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +49,13 @@ class _IndustryappbarState extends State<Industryappbar> {
           ),
         ),
         widget.showBackButton
-            ? Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).maybePop();
-                    },
-                    icon: const Icon(Icons.arrow_back),
-                  ),
+            ? Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).maybePop();
+                  },
+                  icon: const Icon(Icons.arrow_back),
                 ),
               )
             : const SizedBox.shrink(), // Show nothing if false
