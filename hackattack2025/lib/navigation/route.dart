@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hackattack2025/IndustryUI/homepage/homepage.dart';
+import 'package:hackattack2025/datamodel.dart';
 import 'package:hackattack2025/roleselection.dart';
 import 'package:hackattack2025/authentication/authentication_module.dart';
+import 'package:hackattack2025/IndustryUI/industry_module.dart';
 
 class AppRoutes {
   //Role Selection route
@@ -21,6 +22,10 @@ class AppRoutes {
 
   //Industry UI route
   static const String industryhomepage = '/Industryhomepage';
+  static const String airlocationlist = '/Airlocationlist';
+  static const String airlocationstats = '/Airlocationstats';
+  static const String airlocationdetails = '/Airlocationdetails';
+  static const String airsensordata = '/Airsensordata';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -41,6 +46,40 @@ class AppRoutes {
 
       //Industry UI route
       industryhomepage: (context) => const Industryhomepage(),
+      airlocationlist: (context) => const Airlocationlist(),
+      airlocationstats: (context) {
+        final args = ModalRoute.of(context)!.settings.arguments;
+        String label = '';
+        if (args is String) {
+          label = args;
+        }
+        return Airlocationstats(label: label);
+      },
+      airlocationdetails: (context) {
+        final args = ModalRoute.of(context)!.settings.arguments;
+        List<DaySchedule> schedules = [];
+        if (args is List<DaySchedule>) {
+          // Assuming you pass a list of DaySchedule
+          schedules = args;
+        }
+        return Locationdetails(dummySchedules: schedules);
+      },
+      // In your routes configuration (e.g., in main.dart or app_routes.dart)
+
+      airsensordata: (context) {
+        final args = ModalRoute.of(context)!.settings.arguments;
+        final SensorData sensordata = (args is SensorData)
+            ? args
+            : const SensorData(
+                sensorId:
+                    'Error', // Provide default/placeholder values for safety
+                sensorType: 'Unknown Sensor',
+                lastReading: 'N/A',
+                location: 'Unknown Location',
+              );
+
+        return Airsensordata(sensorData: sensordata);
+      },
     };
   }
 }
