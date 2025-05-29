@@ -62,11 +62,27 @@ class SensorData {
   final String sensorType;
   final String lastReading;
   final String location;
+  final String? installationDate;
 
   const SensorData({
     required this.sensorId,
     required this.sensorType,
     required this.lastReading,
+    required this.location,
+    this.installationDate,
+  });
+}
+
+class ScheduleData {
+  final String scheduleId;
+  final String scheduleType;
+  final String scheduleDate; // New field for the date
+  final String location;
+
+  const ScheduleData({
+    required this.scheduleId,
+    required this.scheduleType,
+    required this.scheduleDate,
     required this.location,
   });
 }

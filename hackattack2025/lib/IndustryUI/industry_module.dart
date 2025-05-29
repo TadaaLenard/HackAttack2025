@@ -5,3 +5,8 @@ export 'package:hackattack2025/IndustryUI/homepage/airmonitor/airlocationinfo.da
 export 'package:hackattack2025/IndustryUI/homepage/airmonitor/airlocationdetails.dart';
 export 'package:hackattack2025/IndustryUI/homepage/airmonitor/airsensorinfo.dart';
 export 'package:hackattack2025/IndustryUI/homepage/airmonitor/airsensordata.dart';
+
+export 'package:hackattack2025/IndustryUI/sensormanagement/sensorlist.dart';
+export 'package:hackattack2025/IndustryUI/sensormanagement/addsensor.dart';
+
+export 'package:hackattack2025/IndustryUI/maintenance/schedulelist.dart';

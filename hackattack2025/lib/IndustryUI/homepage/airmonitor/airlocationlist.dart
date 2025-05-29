@@ -91,7 +91,7 @@ class _AirlocationlistState extends State<Airlocationlist> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return SensorCard(
+                      return SensorStackCard(
                         sensor: filteredSensors[index],
                         appRoute: AppRoutes.airlocationstats,
                       );
@@ -132,11 +132,12 @@ class SearchBarWidget extends StatelessWidget {
   }
 }
 
-class SensorCard extends StatelessWidget {
+class SensorStackCard extends StatelessWidget {
   final SensorStack sensor;
   final String appRoute;
 
-  const SensorCard({super.key, required this.sensor, required this.appRoute});
+  const SensorStackCard(
+      {super.key, required this.sensor, required this.appRoute});
 
   Color getBorderColor() {
     switch (sensor.status.toLowerCase()) {

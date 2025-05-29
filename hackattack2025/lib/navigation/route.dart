@@ -27,6 +27,11 @@ class AppRoutes {
   static const String airlocationdetails = '/Airlocationdetails';
   static const String airsensordata = '/Airsensordata';
 
+  static const String sensorlist = '/Sensorlist';
+  static const String addsensor = '/Addsensor';
+
+  static const String schedulelist = '/Schedulelist';
+
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       //Role Selection route
@@ -80,6 +85,16 @@ class AppRoutes {
 
         return Airsensordata(sensorData: sensordata);
       },
+
+      sensorlist: (context) => const Sensorlist(),
+      addsensor: (context) {
+        // Retrieve arguments, which could be null or a SensorData object
+        final SensorData? sensorData =
+            ModalRoute.of(context)!.settings.arguments as SensorData?;
+        return Addsensor(sensorData: sensorData);
+      },
+
+      schedulelist: (context) => const Schedulelist(),
     };
   }
 }
