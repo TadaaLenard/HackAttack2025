@@ -10,3 +10,5 @@ export 'package:hackattack2025/IndustryUI/sensormanagement/sensorlist.dart';
 export 'package:hackattack2025/IndustryUI/sensormanagement/addsensor.dart';
 
 export 'package:hackattack2025/IndustryUI/maintenance/schedulelist.dart';
+export 'package:hackattack2025/IndustryUI/maintenance/scheduleinfo.dart';
+export 'package:hackattack2025/IndustryUI/maintenance/addschedule.dart';

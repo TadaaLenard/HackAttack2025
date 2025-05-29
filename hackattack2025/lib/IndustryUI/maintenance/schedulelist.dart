@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hackattack2025/IndustryUI/homepage/airmonitor/airlocationlist.dart'; // This import might be unused now
+import 'package:hackattack2025/IndustryUI/homepage/airmonitor/airlocationlist.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/customizedbutton.dart';
 import 'package:hackattack2025/components/navbar.dart';
-import 'package:hackattack2025/datamodel.dart'; // Assuming this file contains SensorData, will be updated to ScheduleData
+import 'package:hackattack2025/datamodel.dart';
 import 'package:hackattack2025/navigation/route.dart';
 
 class Schedulelist extends StatefulWidget {
@@ -20,23 +20,38 @@ class _SchedulelistState extends State<Schedulelist> {
   // Updated dummy data to match the new ScheduleData model and image
   List<ScheduleData> schedules = [
     const ScheduleData(
-      scheduleId: 'CLEAN-20250530-001', // Internal ID
       scheduleType: 'Weekly Equipment Cleaning',
       scheduleDate: '30/05/2025',
       location: 'Coking Unit 1 – Heat Exchanger Bay',
+      notes:
+          'Standard weekly cleaning of heat exchanger surfaces.', // Added notes
     ),
-    // You can add more dummy ScheduleData objects here if needed
     const ScheduleData(
-      scheduleId: 'MAINT-20250601-002',
       scheduleType: 'Monthly Machine Maintenance',
       scheduleDate: '01/06/2025',
       location: 'Refinery Section 3 - Pump Station',
+      notes:
+          'Includes lubrication and filter checks for all pumps.', // Added notes
     ),
     const ScheduleData(
-      scheduleId: 'INSP-20250605-003',
       scheduleType: 'Quarterly Safety Inspection',
       scheduleDate: '05/06/2025',
       location: 'Storage Tank Farm - Tank 12',
+      notes:
+          'Review of safety protocols and emergency equipment.', // Added notes
+    ),
+    const ScheduleData(
+      scheduleType: 'Instrument Calibration',
+      scheduleDate: '10/06/2025',
+      location: 'Control Room - Panel A',
+      notes: 'Calibration of pressure and temperature sensors.', // Added notes
+    ),
+    const ScheduleData(
+      scheduleType: 'Emergency Repair',
+      scheduleDate: '15/06/2025',
+      location: 'Distillation Column - Section 2',
+      notes:
+          'Repair of minor leak in pipe connection. Requires shut down.', // Added notes
     ),
   ];
   String searchTerm = '';
@@ -44,7 +59,7 @@ class _SchedulelistState extends State<Schedulelist> {
   void _deleteSchedule(ScheduleData scheduleToDelete) {
     setState(() {
       schedules.removeWhere(
-          (schedule) => schedule.scheduleId == scheduleToDelete.scheduleId);
+          (schedule) => schedule.scheduleType == scheduleToDelete.scheduleType);
     });
   }
 
@@ -66,7 +81,10 @@ class _SchedulelistState extends State<Schedulelist> {
                 .contains(searchTerm.toLowerCase()) ||
             schedule.scheduleDate
                 .toLowerCase()
-                .contains(searchTerm.toLowerCase()))
+                .contains(searchTerm.toLowerCase()) ||
+            (schedule.notes != null &&
+                schedule.notes!.toLowerCase().contains(
+                    searchTerm.toLowerCase()))) // Include notes in search
         .toList();
 
     return Scaffold(
@@ -81,7 +99,7 @@ class _SchedulelistState extends State<Schedulelist> {
             const Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Schedules', // Changed title to 'Schedules'
+                'Maintenance Schedules', // Changed title to 'Schedules'
                 style: TextStyle(fontSize: 25),
               ),
             ),
@@ -162,16 +180,16 @@ class ScheduleCard extends StatelessWidget {
             'Confirm Deletion',
             textAlign: TextAlign.center,
           ),
-          content: Column(
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.warning_amber_rounded,
                 color: Colors.black,
                 size: 60,
               ),
-              const SizedBox(height: 10),
-              const Text(
+              SizedBox(height: 10),
+              Text(
                 'Are you sure you want to remove this schedule?', // Changed text
                 textAlign: TextAlign.center,
               ),
@@ -203,10 +221,9 @@ class ScheduleCard extends StatelessWidget {
       onPressed: () {
         // Navigate to the specified route when the card is pressed
         Navigator.pushNamed(
-          // Changed from pushNamedAndRemoveUntil as it's typically for navigating to a new root
           context,
-          appRoute,
-          arguments: schedule, // Pass the schedule data
+          AppRoutes.scheduleinfo,
+          arguments: schedule,
         );
       },
       style: ElevatedButton.styleFrom(
@@ -251,23 +268,52 @@ class ScheduleCard extends StatelessWidget {
               "Date: ${schedule.scheduleDate}", // Display schedule date
               style: TextStyle(fontSize: 14, color: Colors.grey[700]),
             ),
+
             const SizedBox(height: 4),
             Row(
               children: [
+                // "More" button on the left
                 Icon(Icons.location_on, size: 16, color: Colors.grey[700]),
                 const SizedBox(width: 4),
                 Text(
                   schedule.location, // Display location
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
-                const Spacer(),
+              ],
+            ),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    // Handle "More" button press
+                    // This could navigate to a detailed schedule view
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.scheduleinfo,
+                      arguments: schedule,
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: const Text(
+                    'More',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                const Spacer(), // Pushes the Edit button to the right
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes
-                          .addsensor, // This route needs to be adjusted for 'edit schedule'
-                      arguments: schedule, // Pass the schedule data
+                      AppRoutes.addschedule,
+                      arguments: schedule,
                     );
                   },
                   style: TextButton.styleFrom(
@@ -277,7 +323,11 @@ class ScheduleCard extends StatelessWidget {
                   ),
                   child: const Text(
                     'Edit',
-                    style: TextStyle(fontSize: 14, color: Colors.blue),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
@@ -288,6 +338,3 @@ class ScheduleCard extends StatelessWidget {
     );
   }
 }
-
-// Assuming SearchBarWidget is defined elsewhere and works with TextEditingController
-// Assuming Industryappbar, GreenElevatedButton, Industrynavbar, and AppRoutes are defined elsewhere.
