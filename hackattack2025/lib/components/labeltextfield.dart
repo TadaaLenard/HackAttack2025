@@ -141,3 +141,48 @@ class _KeypadInputFieldState extends State<KeypadInputField> {
     );
   }
 }
+
+class DateField extends StatelessWidget {
+  final String label;
+  final String placeholder;
+  final TextEditingController controller;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final Widget? suffixIcon;
+
+  const DateField({
+    super.key,
+    required this.label,
+    required this.placeholder,
+    required this.controller,
+    this.readOnly = false,
+    this.onTap,
+    this.suffixIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          readOnly: readOnly,
+          onTap: onTap,
+          decoration: InputDecoration(
+            hintText: placeholder,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            suffixIcon: suffixIcon,
+          ),
+        ),
+      ],
+    );
+  }
+}

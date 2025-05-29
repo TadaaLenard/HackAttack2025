@@ -4,26 +4,35 @@ import 'package:hackattack2025/navigation/route.dart';
 
 class GreenElevatedButton extends StatelessWidget {
   final String text;
-  final String navigateTo;
+  final String? navigateTo; // Make nullable as navigation is now optional
+  final VoidCallback? onPressed; // New optional callback
 
   const GreenElevatedButton({
     super.key,
     required this.text,
-    required this.navigateTo,
+    this.navigateTo, // Now optional
+    this.onPressed, // Optional callback
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        (navigateTo == AppRoutes.login || navigateTo == AppRoutes.signup)
-            ? Navigator.pushNamedAndRemoveUntil(
-                context,
-                navigateTo,
-                ModalRoute.withName(AppRoutes.userentry),
-              )
-            : Navigator.pushNamed(context, navigateTo);
-      },
+      onPressed: onPressed ??
+          () {
+            // Use the provided onPressed, or default navigation
+            if (navigateTo != null) {
+              if (navigateTo == AppRoutes.login ||
+                  navigateTo == AppRoutes.signup) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  navigateTo!,
+                  ModalRoute.withName(AppRoutes.userentry),
+                );
+              } else {
+                Navigator.pushNamed(context, navigateTo!);
+              }
+            }
+          },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(300, 50),
         backgroundColor: const Color(0xFF00796B),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackattack2025/IndustryUI/sensormanagement/addsensor.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/customizedbutton.dart';
 import 'package:hackattack2025/components/labeltextfield.dart';
@@ -6,51 +7,34 @@ import 'package:hackattack2025/components/navbar.dart';
 import 'package:hackattack2025/datamodel.dart';
 import 'package:hackattack2025/navigation/route.dart';
 
-class Addsensor extends StatefulWidget {
-  final SensorData? sensorData; // Optional parameter for editing
+class Addschedule extends StatefulWidget {
+  final ScheduleData? scheduleData; // Optional parameter for editing
 
-  const Addsensor({super.key, this.sensorData});
+  const Addschedule({super.key, this.scheduleData});
 
   @override
-  State<Addsensor> createState() => _AddsensorState();
+  State<Addschedule> createState() => _AddscheduleState();
 }
 
-class _AddsensorState extends State<Addsensor> {
+class _AddscheduleState extends State<Addschedule> {
   final paddingval = 20.0;
-  final TextEditingController sensoridController = TextEditingController();
-  final TextEditingController sensorlocationController =
+  final TextEditingController scheduletypeController = TextEditingController();
+  final TextEditingController schedulelocationController =
       TextEditingController();
-  final TextEditingController installdateController = TextEditingController();
-
-  String? _selectedSensorType;
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController notesController = TextEditingController();
   DateTime? _selectedDate;
-
-  final List<String> _sensorTypes = [
-    'Particulate Matter ≤2.5 µm (PM2.5)',
-    'Heavy Metal Contaminants',
-    'pH',
-    'Particulate Matter ≤10 µm (PM10)',
-    'Sulfur Dioxide (SO2)',
-    'Total Organic Carbon (TOC)',
-    'Turbidity',
-    'Temperature',
-    'Humidity',
-    'Pressure',
-    'Carbon Dioxide (CO2)',
-    'Nitrogen Oxides (NOx)',
-    'Ozone (O3)',
-  ];
-
   @override
   void initState() {
     super.initState();
-    // Pre-fill fields if sensorData is provided (edit mode)
-    if (widget.sensorData != null) {
-      sensoridController.text = widget.sensorData!.sensorId;
-      sensorlocationController.text = widget.sensorData!.location;
-      installdateController.text = widget.sensorData!
-          .installationDate!; // Assuming lastReading serves as installation date for pre-fill
-      _selectedSensorType = widget.sensorData!.sensorType;
+    // Pre-fill fields if scheduleData is provided (edit mode)
+    if (widget.scheduleData != null) {
+      scheduletypeController.text = widget.scheduleData!.scheduleType;
+      schedulelocationController.text = widget.scheduleData!.location;
+      dateController.text = widget.scheduleData!.scheduleDate;
+      if (widget.scheduleData!.notes != null) {
+        notesController.text = widget.scheduleData!.notes!;
+      }
     }
   }
 
@@ -64,17 +48,16 @@ class _AddsensorState extends State<Addsensor> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
-        installdateController.text =
-            "${picked.day}/${picked.month}/${picked.year}";
+        dateController.text = "${picked.day}/${picked.month}/${picked.year}";
       });
     }
   }
 
   @override
   void dispose() {
-    sensoridController.dispose();
-    sensorlocationController.dispose();
-    installdateController.dispose();
+    scheduletypeController.dispose();
+    schedulelocationController.dispose();
+    dateController.dispose();
     super.dispose();
   }
 
@@ -82,159 +65,84 @@ class _AddsensorState extends State<Addsensor> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.all(paddingval),
-        child: Column(
-          children: [
-            const Industryappbar(
-              // Moved Industryappbar inside the Column
-              showBackButton: true,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: widget.sensorData == null
-                  ? const Text(
-                      'Add a new Sensor',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(paddingval),
+          child: Column(
+            children: [
+              const Industryappbar(
+                // Moved Industryappbar inside the Column
+                showBackButton: true,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: widget.scheduleData == null
+                    ? const Text(
+                        'Add a new Schedule',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : const Text(
+                        'Edit Schedule',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    )
-                  : const Text(
-                      'Edit Sensor',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-            ),
-            SizedBox(
-              height: paddingval,
-            ),
-            LabeledTextField(
-              label: 'Sensor ID',
-              placeholder: 'Your sensor ID',
-              controller: sensoridController,
-            ),
-            SizedBox(
-              height: paddingval,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Sensor Type',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                DropdownButtonFormField<String>(
-                  value: _selectedSensorType,
-                  isExpanded: true, // Added to fix overflow and alignment
-                  decoration: InputDecoration(
-                    hintText: 'Select Sensor Type',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  items: _sensorTypes.map((String type) {
-                    return DropdownMenuItem<String>(
-                      value: type,
-                      child: Text(type),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedSensorType = newValue;
-                    });
-                  },
-                ),
-              ],
-            ),
-            SizedBox(
-              height: paddingval,
-            ),
-            LabeledTextField(
-              label: 'Sensor Location',
-              placeholder: 'Sensor Location',
-              controller: sensorlocationController,
-            ),
-            SizedBox(
-              height: paddingval,
-            ),
-            DateField(
-              label: 'Installation Date',
-              placeholder: 'dd/mm/yyyy',
-              controller: installdateController,
-              readOnly: true,
-              onTap: () => _selectDate(context),
-              suffixIcon: const Icon(Icons.calendar_today),
-            ),
-            SizedBox(
-              height: paddingval,
-            ),
-            GreenElevatedButton(
-              // Added GreenElevatedButton
-              text: widget.sensorData != null ? "Update" : "Add",
-              navigateTo: AppRoutes.sensorlist,
-            ),
-          ],
+              ),
+              SizedBox(
+                height: paddingval,
+              ),
+              LabeledTextField(
+                label: 'Schedule Title',
+                placeholder: 'Your schedule Title',
+                controller: scheduletypeController,
+              ),
+              SizedBox(
+                height: paddingval,
+              ),
+              LabeledTextField(
+                label: 'Schedule Location',
+                placeholder: 'Schedule Location',
+                controller: schedulelocationController,
+              ),
+              SizedBox(
+                height: paddingval,
+              ),
+              DateField(
+                label: 'Maintenance Date',
+                placeholder: 'dd/mm/yyyy',
+                controller: dateController,
+                readOnly: true,
+                onTap: () => _selectDate(context),
+                suffixIcon: const Icon(Icons.calendar_today),
+              ),
+              SizedBox(
+                height: paddingval,
+              ),
+              LabeledTextField(
+                label: 'Additional Notes',
+                placeholder: 'Optional Notes',
+                controller: notesController,
+              ),
+              SizedBox(
+                height: paddingval,
+              ),
+              GreenElevatedButton(
+                // Added GreenElevatedButton
+                text: widget.scheduleData != null ? "Edit" : "Add",
+                navigateTo: AppRoutes.schedulelist,
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const Industrynavbar(),
       // Removed floatingActionButton and floatingActionButtonLocation
-    );
-  }
-}
-
-class DateField extends StatelessWidget {
-  final String label;
-  final String placeholder;
-  final TextEditingController controller;
-  final bool readOnly;
-  final VoidCallback? onTap;
-  final Widget? suffixIcon;
-
-  const DateField({
-    super.key,
-    required this.label,
-    required this.placeholder,
-    required this.controller,
-    this.readOnly = false,
-    this.onTap,
-    this.suffixIcon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          readOnly: readOnly,
-          onTap: onTap,
-          decoration: InputDecoration(
-            hintText: placeholder,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            suffixIcon: suffixIcon,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -74,15 +74,15 @@ class SensorData {
 }
 
 class ScheduleData {
-  final String scheduleId;
   final String scheduleType;
   final String scheduleDate; // New field for the date
   final String location;
+  final String? notes; // Added notes property
 
   const ScheduleData({
-    required this.scheduleId,
     required this.scheduleType,
     required this.scheduleDate,
     required this.location,
+    this.notes, // Included in constructor
   });
 }

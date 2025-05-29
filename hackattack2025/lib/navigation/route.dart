@@ -31,6 +31,8 @@ class AppRoutes {
   static const String addsensor = '/Addsensor';
 
   static const String schedulelist = '/Schedulelist';
+  static const String scheduleinfo = '/Scheduleinfo';
+  static const String addschedule = '/Addschedule';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -95,6 +97,18 @@ class AppRoutes {
       },
 
       schedulelist: (context) => const Schedulelist(),
+      scheduleinfo: (context) {
+        // Retrieve arguments, which could be null or a SensorData object
+        final ScheduleData? scheduleData =
+            ModalRoute.of(context)!.settings.arguments as ScheduleData?;
+        return Scheduleinfo(scheduleData: scheduleData);
+      },
+      addschedule: (context) {
+        // Retrieve arguments, which could be null or a SensorData object
+        final ScheduleData? scheduleData =
+            ModalRoute.of(context)!.settings.arguments as ScheduleData?;
+        return Addschedule(scheduleData: scheduleData);
+      },
     };
   }
 }
