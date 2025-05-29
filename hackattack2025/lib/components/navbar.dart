@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackattack2025/navigation/route.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class Industrynavbar extends StatelessWidget {
@@ -14,7 +15,13 @@ class Industrynavbar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.sensorlist,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedInternetAntenna01,
               size: iconsize,
@@ -22,7 +29,13 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.schedulelist,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: Icon(
               Icons.build,
               color: Colors.white,
