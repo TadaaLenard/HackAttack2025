@@ -34,6 +34,9 @@ class AppRoutes {
   static const String scheduleinfo = '/Scheduleinfo';
   static const String addschedule = '/Addschedule';
 
+  static const String sensorshoplist = '/Sensorshoplist';
+  static const String sensorcart = '/Sensorcart';
+
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       //Role Selection route
@@ -109,6 +112,9 @@ class AppRoutes {
             ModalRoute.of(context)!.settings.arguments as ScheduleData?;
         return Addschedule(scheduleData: scheduleData);
       },
+
+      sensorshoplist: (context) => const Sensorshoplist(),
+      sensorcart: (context) => const Sensorcart(),
     };
   }
 }

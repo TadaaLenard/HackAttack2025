@@ -43,7 +43,13 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.industryhomepage,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: Material(
               color: Colors.white,
               shape: const CircleBorder(),
@@ -58,7 +64,13 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.sensorshoplist,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedShoppingBag01,
               size: iconsize,

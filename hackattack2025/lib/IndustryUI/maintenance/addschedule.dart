@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hackattack2025/IndustryUI/sensormanagement/addsensor.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/customizedbutton.dart';
 import 'package:hackattack2025/components/labeltextfield.dart';
