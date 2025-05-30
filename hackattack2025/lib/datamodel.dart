@@ -86,3 +86,37 @@ class ScheduleData {
     this.notes, // Included in constructor
   });
 }
+
+class Product {
+  final String imagePath;
+  final String productName;
+  final String
+      soldQuantity; // This might be less relevant in a cart, but keeping for now
+  final String
+      price; // Still keeping as string for input, will parse for calculation
+
+  const Product({
+    required this.imagePath,
+    required this.productName,
+    required this.soldQuantity,
+    required this.price,
+  });
+
+  double get priceValue {
+    // Remove "RM" and parse as double
+    return double.tryParse(price.replaceAll('RM', '')) ?? 0.0;
+  }
+}
+
+class CartItem {
+  final Product product;
+  int quantity; // Quantity in cart, can be modified
+
+  CartItem({
+    required this.product,
+    this.quantity = 1, // Default to 1 if not specified when adding to cart
+  });
+
+  // Calculate total price for this item
+  double get totalItemPrice => product.priceValue * quantity;
+}
