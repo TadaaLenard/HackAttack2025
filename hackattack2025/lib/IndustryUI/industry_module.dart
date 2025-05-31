@@ -17,3 +17,5 @@ export 'package:hackattack2025/IndustryUI/sensorshop/sensorshoplist.dart';
 export 'package:hackattack2025/IndustryUI/sensorshop/sensorcart.dart';
 
 export 'package:hackattack2025/IndustryUI/chatbot/chatbot.dart';
+
+export 'package:hackattack2025/IndustryUI/notifcation/notification.dart';

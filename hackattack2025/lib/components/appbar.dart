@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackattack2025/navigation/route.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class Industryappbar extends StatefulWidget {
@@ -27,7 +28,13 @@ class _IndustryappbarState extends State<Industryappbar> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.industrynoti,
+                        ModalRoute.withName(AppRoutes.industryhomepage),
+                      );
+                    },
                     icon: HugeIcon(
                       icon: HugeIcons.strokeRoundedNotification03,
                       size: iconsize,
