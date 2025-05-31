@@ -78,7 +78,13 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.industrychatbot,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedBot,
               size: iconsize,

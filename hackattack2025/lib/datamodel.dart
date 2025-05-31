@@ -120,3 +120,13 @@ class CartItem {
   // Calculate total price for this item
   double get totalItemPrice => product.priceValue * quantity;
 }
+
+class RealTimeSensorRecord {
+  final SensorStack sensorStack;
+  final String date; // The real-time data record (e.g., timestamp or date)
+
+  RealTimeSensorRecord({
+    required this.sensorStack,
+    required this.date,
+  });
+}
