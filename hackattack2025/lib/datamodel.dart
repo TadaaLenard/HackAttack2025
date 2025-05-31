@@ -130,3 +130,19 @@ class RealTimeSensorRecord {
     required this.date,
   });
 }
+
+class UserProfile {
+  final String name;
+  final String email;
+  final String username; // Added username property
+  final String? profileImageUrl;
+  final String? address;
+
+  UserProfile({
+    required this.name,
+    required this.email,
+    required this.username, // Make sure to add this to the constructor
+    this.profileImageUrl,
+    this.address,
+  });
+}

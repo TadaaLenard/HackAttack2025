@@ -41,6 +41,9 @@ class AppRoutes {
 
   static const String industrynoti = '/Industrynoti';
 
+  static const String industryprofilelist = '/Industryprofilelist';
+  static const String industryeditprofile = '/Industryeditprofile';
+
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       //Role Selection route
@@ -122,6 +125,22 @@ class AppRoutes {
 
       industrychatbot: (context) => const Industrychatbot(),
       industrynoti: (context) => const Industrynoti(),
+
+      industryprofilelist: (context) => const Industryprofilelist(),
+      industryeditprofile: (context) {
+        // Retrieve arguments, which should be a UserProfile object
+        final args = ModalRoute.of(context)!.settings.arguments;
+        final UserProfile userProfile = (args is UserProfile)
+            ? args
+            : UserProfile(
+                // Provide a default UserProfile for safety
+                name: 'Guest User',
+                email: 'guest@example.com',
+                username: 'guestuser', // Provide a default username
+                address: '',
+              );
+        return Industryeditprofile(userProfile: userProfile);
+      },
     };
   }
 }

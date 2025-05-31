@@ -7,9 +7,9 @@ class NotificationCard extends StatelessWidget {
   final RealTimeSensorRecord realTimeRecord;
 
   const NotificationCard({
-    Key? key,
+    super.key,
     required this.realTimeRecord,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,9 @@ class _IndustrynotiState extends State<Industrynoti> {
   final paddingval = 20.0;
 
   // Dummy data for notifications, now using RealTimeSensorRecord
+  // Set this list to empty to test the "No notifications yet" message
   final List<RealTimeSensorRecord> _notifications = [
+    // Uncomment the following lines to see notifications
     RealTimeSensorRecord(
       sensorStack: SensorStack(
         stackName: 'Air Monitoring',
@@ -178,28 +180,52 @@ class _IndustrynotiState extends State<Industrynoti> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
-                Text(
-                  'Just now', // "Just now" text as seen in the image
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
+                // Removed "Just now" as it's not always relevant
               ],
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: paddingval),
-              itemCount: _notifications.length,
-              itemBuilder: (context, index) {
-                return NotificationCard(
-                  realTimeRecord: _notifications[
-                      index], // Pass the new RealTimeSensorRecord object
-                );
-              },
-            ),
+            child: _notifications.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Icon similar to the image (a box/inbox icon)
+                        Icon(
+                          Icons.inbox, // Using a suitable material icon
+                          size: 80,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'No notifications yet',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Your notification will appear here\nonce you\'ve received them.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: paddingval),
+                    itemCount: _notifications.length,
+                    itemBuilder: (context, index) {
+                      return NotificationCard(
+                        realTimeRecord: _notifications[index],
+                      );
+                    },
+                  ),
           ),
         ],
       ),
