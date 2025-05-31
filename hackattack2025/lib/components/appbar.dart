@@ -43,7 +43,13 @@ class _IndustryappbarState extends State<Industryappbar> {
                   ),
                   const SizedBox(width: 10),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.industryprofilelist,
+                        ModalRoute.withName(AppRoutes.industryhomepage),
+                      );
+                    },
                     icon: HugeIcon(
                       icon: HugeIcons.strokeRoundedUser,
                       size: iconsize,
