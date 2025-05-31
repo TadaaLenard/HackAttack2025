@@ -37,6 +37,8 @@ class AppRoutes {
   static const String sensorshoplist = '/Sensorshoplist';
   static const String sensorcart = '/Sensorcart';
 
+  static const String industrychatbot = '/Industrychatbot';
+
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       //Role Selection route
@@ -115,6 +117,8 @@ class AppRoutes {
 
       sensorshoplist: (context) => const Sensorshoplist(),
       sensorcart: (context) => const Sensorcart(),
+
+      industrychatbot: (context) => const Industrychatbot(),
     };
   }
 }
