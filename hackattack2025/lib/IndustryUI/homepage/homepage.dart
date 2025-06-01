@@ -41,7 +41,7 @@ class _IndustryhomepageState extends State<Industryhomepage> {
                   navigateTo: AppRoutes.industryhomepage, label: 'Water'),
               SizedBox(height: paddingval),
               const MonitorOption(
-                  navigateTo: AppRoutes.industryhomepage, label: 'Air'),
+                  navigateTo: AppRoutes.airlocationlist, label: 'Air'),
             ],
           ),
         ),

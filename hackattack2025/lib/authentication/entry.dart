@@ -13,9 +13,9 @@ class _UserentryState extends State<Userentry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      // ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(

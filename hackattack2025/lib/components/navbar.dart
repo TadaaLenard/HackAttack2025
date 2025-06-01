@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackattack2025/navigation/route.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../UserUI/favourite_industry.dart';
@@ -18,11 +19,10 @@ class Industrynavbar extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushNamedAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const FavouriteIndustryPage(),
-                ),
+                AppRoutes.sensorlist,
+                ModalRoute.withName(AppRoutes.industryhomepage),
               );
             },
             icon: HugeIcon(
@@ -33,11 +33,10 @@ class Industrynavbar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushNamedAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => ApiServicePage(),
-                ),
+                AppRoutes.schedulelist,
+                ModalRoute.withName(AppRoutes.industryhomepage),
               );
             },
             icon: Icon(
@@ -47,7 +46,13 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.industryhomepage,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: Material(
               color: Colors.white,
               shape: const CircleBorder(),
@@ -62,7 +67,13 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.sensorshoplist,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedShoppingBag01,
               size: iconsize,
@@ -70,7 +81,13 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.industrychatbot,
+                ModalRoute.withName(AppRoutes.industryhomepage),
+              );
+            },
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedBot,
               size: iconsize,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackattack2025/navigation/route.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class Industryappbar extends StatefulWidget {
@@ -12,7 +13,7 @@ class Industryappbar extends StatefulWidget {
 
 class _IndustryappbarState extends State<Industryappbar> {
   final iconsize = 40.0;
-  final paddingval = 20.0;
+  final paddingval = 10.0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,13 @@ class _IndustryappbarState extends State<Industryappbar> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.industrynoti,
+                        ModalRoute.withName(AppRoutes.industryhomepage),
+                      );
+                    },
                     icon: HugeIcon(
                       icon: HugeIcons.strokeRoundedNotification03,
                       size: iconsize,
@@ -36,7 +43,13 @@ class _IndustryappbarState extends State<Industryappbar> {
                   ),
                   const SizedBox(width: 10),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.industryprofilelist,
+                        ModalRoute.withName(AppRoutes.industryhomepage),
+                      );
+                    },
                     icon: HugeIcon(
                       icon: HugeIcons.strokeRoundedUser,
                       size: iconsize,
@@ -49,16 +62,13 @@ class _IndustryappbarState extends State<Industryappbar> {
           ),
         ),
         widget.showBackButton
-            ? Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).maybePop();
-                    },
-                    icon: const Icon(Icons.arrow_back),
-                  ),
+            ? Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).maybePop();
+                  },
+                  icon: const Icon(Icons.arrow_back),
                 ),
               )
             : const SizedBox.shrink(), // Show nothing if false
