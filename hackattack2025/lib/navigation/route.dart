@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hackattack2025/IndustryUI/homepage/homepage.dart';
+import 'package:hackattack2025/UserUI/homepage.dart';
 import 'package:hackattack2025/roleselection.dart';
 import 'package:hackattack2025/authentication/authentication_module.dart';
 
@@ -18,7 +19,7 @@ class AppRoutes {
   static const String resetsuccess = '/Resetsuccess';
 
   //Normal User UI route
-
+  static const String userhomepage = '/Userhomepage';
   //Industry UI route
   static const String industryhomepage = '/Industryhomepage';
 
@@ -38,7 +39,7 @@ class AppRoutes {
       resetsuccess: (context) => const Resetsuccess(),
 
       //Normal User UI route
-
+      userhomepage: (context)=>const Userhomepage(),
       //Industry UI route
       industryhomepage: (context) => const Industryhomepage(),
     };

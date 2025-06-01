@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
+import '../UserUI/favourite_industry.dart';
+import '../UserUI/api_service_page.dart';
+
 class Industrynavbar extends StatelessWidget {
   const Industrynavbar({super.key});
   final iconsize = 35.0;
@@ -14,7 +17,14 @@ class Industrynavbar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavouriteIndustryPage(),
+                ),
+              );
+            },
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedInternetAntenna01,
               size: iconsize,
@@ -22,7 +32,14 @@ class Industrynavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ApiServicePage(),
+                ),
+              );
+            },
             icon: Icon(
               Icons.build,
               color: Colors.white,
