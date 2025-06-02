@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/navbar.dart';
+import 'package:hackattack2025/components/user_navbar.dart';
 import 'package:hackattack2025/navigation/route.dart';
 import 'package:hackattack2025/components/user/company_card.dart'; // Add this line
 import 'package:hugeicons/hugeicons.dart';
@@ -104,7 +105,7 @@ class _UserhomepageState extends State<Userhomepage> {
           ],
         ),
       ),
-      bottomNavigationBar: const Industrynavbar(),
+      bottomNavigationBar: const UserNavbar(),
     );
   }
 }

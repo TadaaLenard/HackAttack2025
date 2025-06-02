@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/navbar.dart';
 import 'package:hackattack2025/components/user/company_card.dart';
+import 'package:hackattack2025/components/user_navbar.dart';
 
 class FavouriteIndustryPage extends StatefulWidget {
   const FavouriteIndustryPage({super.key});
@@ -120,7 +121,7 @@ class _FavouriteIndustryPageState extends State<FavouriteIndustryPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const Industrynavbar(),
+      bottomNavigationBar: const UserNavbar(),
     );
   }
 }

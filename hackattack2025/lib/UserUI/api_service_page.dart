@@ -4,6 +4,7 @@ import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/navbar.dart';
 import 'package:hackattack2025/components/user/api_line_chart.dart';
 import 'package:hackattack2025/components/user/api_monitoring_dashboard.dart';
+import 'package:hackattack2025/components/user_navbar.dart';
 import '../components/user/api_key_table.dart';
 import 'api/billing_page.dart';
 import 'api/endpoint_page.dart';
@@ -141,7 +142,7 @@ class _ApiServicePageState extends State<ApiServicePage> {
           ),
         ),
       ),
-      bottomNavigationBar: const Industrynavbar(),
+      bottomNavigationBar: const UserNavbar(),
     );
   }
 

@@ -5,6 +5,8 @@ import 'package:hackattack2025/UserUI/homepage.dart';
 import 'package:hackattack2025/roleselection.dart';
 import 'package:hackattack2025/authentication/authentication_module.dart';
 import 'package:hackattack2025/IndustryUI/industry_module.dart';
+import 'package:hackattack2025/UserUI/favourite_industry.dart';
+import 'package:hackattack2025/UserUI/api_service_page.dart';
 
 class AppRoutes {
   //Role Selection route
@@ -22,6 +24,8 @@ class AppRoutes {
 
   //Normal User UI route
   static const String userhomepage = '/Userhomepage';
+  static const String favouriteindustry = '/favouriteIndustry';
+  static const String apiservicepage = '/apiServicePage';
   //Industry UI route
   static const String industryhomepage = '/Industryhomepage';
   static const String airlocationlist = '/Airlocationlist';
@@ -63,6 +67,8 @@ class AppRoutes {
 
       //Normal User UI route
       userhomepage: (context)=>const Userhomepage(),
+      favouriteindustry: (context)=>const FavouriteIndustryPage(),
+      apiservicepage: (context)=>const ApiServicePage(),
       //Industry UI route
       industryhomepage: (context) => const Industryhomepage(),
       airlocationlist: (context) => const Airlocationlist(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/navbar.dart';
 import 'package:hackattack2025/components/user/api_card.dart';
+import 'package:hackattack2025/components/user_navbar.dart';
 
 class EndpointPage extends StatelessWidget {
   const EndpointPage({super.key});
@@ -92,7 +93,7 @@ GET /realtime?sensor=pm10&lat=5.4&long=100.3
           ),
         ),
       ),
-      bottomNavigationBar: const Industrynavbar(),
+      bottomNavigationBar: const UserNavbar(),
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:hackattack2025/components/user_navbar.dart';
 import 'package:intl/intl.dart';
 import 'package:hackattack2025/components/user/bar_chart.dart';
 import 'package:hackattack2025/components/appbar.dart';
-import 'package:hackattack2025/components/navbar.dart';
 
 class CompanyDetailPage extends StatefulWidget {
   final String companyName;
@@ -31,7 +31,7 @@ class _CompanyDetailPageState extends State<CompanyDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 238, 255, 241),
-      bottomNavigationBar: const Industrynavbar(),
+      bottomNavigationBar: const UserNavbar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(

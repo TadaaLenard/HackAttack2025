@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/customizedbutton.dart';
 import 'package:hackattack2025/components/navbar.dart';
-import 'package:hackattack2025/datamodel.dart'; // Import your data model
+import 'package:hackattack2025/components/user_navbar.dart';
+import 'package:hackattack2025/datamodel.dart';
 import 'package:hackattack2025/navigation/route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Sensorcart extends StatefulWidget {
-  const Sensorcart({
-    super.key,
-  });
+  const Sensorcart({super.key});
 
   @override
   State<Sensorcart> createState() => _SensorcartState();
@@ -16,9 +16,8 @@ class Sensorcart extends StatefulWidget {
 
 class _SensorcartState extends State<Sensorcart> {
   final paddingval = 20.0;
+  String? _userRole;
 
-  // Changed from _products to _cartItems (List of CartItem)
-  // This is a sample cart for demonstration. In a real app, this would come from global state.
   final List<CartItem> _cartItems = [
     CartItem(
       product: const Product(
@@ -27,7 +26,7 @@ class _SensorcartState extends State<Sensorcart> {
         soldQuantity: '100 sold',
         price: 'RM90.80',
       ),
-      quantity: 2, // Example quantity in cart
+      quantity: 2,
     ),
     CartItem(
       product: const Product(
@@ -36,11 +35,23 @@ class _SensorcartState extends State<Sensorcart> {
         soldQuantity: '75 sold',
         price: 'RM120.00',
       ),
-      quantity: 1, // Example quantity in cart
+      quantity: 1,
     ),
   ];
 
-  // Callback to remove an item from the cart
+  @override
+  void initState() {
+    super.initState();
+    _loadUserRole();
+  }
+
+  Future<void> _loadUserRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userRole = prefs.getString('user_role'); // Make sure the key matches your app
+    });
+  }
+
   void _removeCartItem(CartItem item) {
     setState(() {
       _cartItems.remove(item);
@@ -53,15 +64,14 @@ class _SensorcartState extends State<Sensorcart> {
     );
   }
 
-  // Callback to update quantity of an item in the cart
   void _updateCartItemQuantity(CartItem item, int newQuantity) {
     setState(() {
       if (newQuantity <= 0) {
-        _cartItems.remove(item); // Remove if quantity drops to 0 or less
+        _cartItems.remove(item);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-                '${item.product.productName} removed from cart (quantity 0).'),
+            content:
+            Text('${item.product.productName} removed from cart (quantity 0).'),
             duration: const Duration(seconds: 1),
           ),
         );
@@ -84,13 +94,12 @@ class _SensorcartState extends State<Sensorcart> {
               children: [
                 Industryappbar(showBackButton: true),
                 Text(
-                  'My Cart', // Changed title to 'My Cart'
+                  'My Cart',
                   style: TextStyle(fontSize: 25),
                 ),
               ],
             ),
           ),
-          // Search Bar (keeping for now, but might not be typical for a cart page)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: paddingval),
             child: Container(
@@ -114,7 +123,6 @@ class _SensorcartState extends State<Sensorcart> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Iterate through _cartItems to build _CartCard for each
                   if (_cartItems.isEmpty)
                     const Padding(
                       padding: EdgeInsets.all(20.0),
@@ -128,10 +136,9 @@ class _SensorcartState extends State<Sensorcart> {
                     ..._cartItems.map((cartItem) {
                       return _CartCard(
                         paddingval: paddingval,
-                        cartItem: cartItem, // Pass the CartItem object
-                        onRemove: _removeCartItem, // Pass callback for removal
-                        onQuantityChanged:
-                            _updateCartItemQuantity, // Pass callback for quantity update
+                        cartItem: cartItem,
+                        onRemove: _removeCartItem,
+                        onQuantityChanged: _updateCartItemQuantity,
                       );
                     }),
                 ],
@@ -149,8 +156,7 @@ class _SensorcartState extends State<Sensorcart> {
                   if (_cartItems.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content:
-                            Text('Your cart is empty. Cannot proceed to pay.'),
+                        content: Text('Your cart is empty. Cannot proceed to pay.'),
                         duration: Duration(seconds: 2),
                       ),
                     );
@@ -164,28 +170,26 @@ class _SensorcartState extends State<Sensorcart> {
                         duration: const Duration(seconds: 2),
                       ),
                     );
-                    // Navigate to payment screen or checkout
                     Navigator.pushNamed(context, AppRoutes.sensorshoplist);
                   }
                 },
-                // navigateTo: AppRoutes.sensorcart // navigateTo should be handled by onPressed
               ),
             ),
           ),
         ],
       ),
-      bottomNavigationBar: const Industrynavbar(),
+      bottomNavigationBar: _userRole == 'Normal User'
+          ? const UserNavbar()
+          : const Industrynavbar(),
     );
   }
 }
 
-// Renamed _ProductCard to _CartCard and updated its properties
 class _CartCard extends StatefulWidget {
   final double paddingval;
-  final CartItem cartItem; // Now takes a CartItem object
-  final Function(CartItem) onRemove; // Callback for removing an item
-  final Function(CartItem, int)
-      onQuantityChanged; // Callback for quantity change
+  final CartItem cartItem;
+  final Function(CartItem) onRemove;
+  final Function(CartItem, int) onQuantityChanged;
 
   const _CartCard({
     required this.paddingval,
@@ -212,7 +216,6 @@ class _CartCardState extends State<_CartCard> {
   @override
   void didUpdateWidget(covariant _CartCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Update text field if cartItem quantity changes from parent (e.g., item removed)
     if (widget.cartItem.quantity.toString() != _quantityController.text) {
       _quantityController.text = widget.cartItem.quantity.toString();
     }
@@ -230,7 +233,6 @@ class _CartCardState extends State<_CartCard> {
     if (newQuantity != null && newQuantity >= 0) {
       widget.onQuantityChanged(widget.cartItem, newQuantity);
     }
-    // Optional: Handle invalid input (e.g., non-numeric) by showing an error
   }
 
   void _incrementQuantity() {
@@ -243,7 +245,6 @@ class _CartCardState extends State<_CartCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate total price for this specific cart item
     final double totalItemPrice = widget.cartItem.totalItemPrice;
 
     return Container(
@@ -267,22 +268,19 @@ class _CartCardState extends State<_CartCard> {
         children: [
           Center(
             child: Image.asset(
-              widget
-                  .cartItem.product.imagePath, // Use cartItem.product.imagePath
+              widget.cartItem.product.imagePath,
               height: 120,
               fit: BoxFit.contain,
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            widget.cartItem.product
-                .productName, // Use cartItem.product.productName
+            widget.cartItem.product.productName,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 5),
           Text(
-            widget.cartItem.product
-                .soldQuantity, // Use cartItem.product.soldQuantity
+            widget.cartItem.product.soldQuantity,
             style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
           const SizedBox(height: 10),
@@ -290,13 +288,12 @@ class _CartCardState extends State<_CartCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Price: ${widget.cartItem.product.price}', // Display individual unit price
+                'Price: ${widget.cartItem.product.price}',
                 style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
               Text(
-                'Total: RM${totalItemPrice.toStringAsFixed(2)}', // Display total price for this item
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                'Total: RM${totalItemPrice.toStringAsFixed(2)}',
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Container(
@@ -339,10 +336,9 @@ class _CartCardState extends State<_CartCard> {
               SizedBox(
                 width: double.infinity,
                 child: GreenElevatedButton(
-                  text: 'Remove', // Changed button text to 'Remove'
+                  text: 'Remove',
                   onPressed: () {
-                    widget
-                        .onRemove(widget.cartItem); // Call the remove callback
+                    widget.onRemove(widget.cartItem);
                   },
                 ),
               ),

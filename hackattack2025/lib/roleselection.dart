@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackattack2025/navigation/route.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoleOption extends StatelessWidget {
   final String label;
@@ -87,9 +88,12 @@ class Roleselection extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 25),
                       child: RoleOption(
                         label: 'Normal User',
-                        onTap: () {
+                        onTap: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString('user_role', 'Normal User'); // store role
                           Navigator.pushNamed(context, AppRoutes.userentry);
                         },
+
                       ),
                     ),
                   ),
@@ -100,7 +104,9 @@ class Roleselection extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 25),
                       child: RoleOption(
                         label: 'Industry',
-                        onTap: () {
+                        onTap: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString('user_role', 'Industry'); // store role
                           Navigator.pushNamed(context, AppRoutes.userentry);
                         },
                       ),

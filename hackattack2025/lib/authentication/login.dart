@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hackattack2025/components/customizedbutton.dart';
 import 'package:hackattack2025/components/labeltextfield.dart';
 import 'package:hackattack2025/navigation/route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -83,9 +84,25 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: paddingval,
                 ),
-                const GreenElevatedButton(
-                    //text: 'Log in', navigateTo: AppRoutes.industryhomepage),
-                    text: 'Log in', navigateTo: AppRoutes.userhomepage),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF078077),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    final role = prefs.getString('user_role') ?? 'Normal User';
+
+                    Navigator.pushNamed(
+                      context,
+                      role == 'Industry' ? AppRoutes.industryhomepage : AppRoutes.userhomepage,
+                    );
+                  },
+                  child: const Text('Log in'),
+                ),
+
                 SizedBox(
                   height: paddingval,
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/navbar.dart';
 import 'package:hackattack2025/components/user/api_pricing_card.dart';
+import 'package:hackattack2025/components/user_navbar.dart';
 
 class SubServicePage extends StatelessWidget {
   const SubServicePage({super.key});
@@ -124,7 +125,7 @@ class SubServicePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const Industrynavbar(),
+      bottomNavigationBar: const UserNavbar(),
     );
   }
 }

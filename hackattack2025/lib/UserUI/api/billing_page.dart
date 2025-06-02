@@ -4,6 +4,7 @@ import 'package:hackattack2025/components/navbar.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:hackattack2025/components/user/api_line_chart.dart';
 import 'package:hackattack2025/components/user/api_monitoring_dashboard.dart';
+import 'package:hackattack2025/components/user_navbar.dart';
 
 class BillingPage extends StatelessWidget {
 
@@ -95,7 +96,7 @@ class BillingPage extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: const Industrynavbar(),
+        bottomNavigationBar: const UserNavbar(),
       ),
     );
   }
