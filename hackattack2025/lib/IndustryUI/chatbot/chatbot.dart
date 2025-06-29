@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hackattack2025/components/appbar.dart';
 import 'package:hackattack2025/components/navbar.dart';
+import 'package:http/http.dart' as http; // Import the http package
+import 'dart:convert'; // Import for JSON encoding/decoding
 
 class Industrychatbot extends StatefulWidget {
   const Industrychatbot({
@@ -13,19 +15,141 @@ class Industrychatbot extends StatefulWidget {
 
 class _IndustrychatbotState extends State<Industrychatbot> {
   final paddingval = 20.0;
+  final TextEditingController _textEditingController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
-  // Hardcoded list of messages for the chatbot
-  final List<Map<String, dynamic>> _messages = [
-    {
-      'text': 'What\'s the current PM2.5 level at the coke oven section?',
-      'isUser': true, // Message from the user
-    },
-    {
-      'text':
-          'The current PM2.5 reading at the coke oven section is 78 µg/m³, which is categorized as Unhealthy. Please ensure workers in the area wear respiratory protection.',
-      'isUser': false, // Message from the bot
-    },
-  ];
+  // Initialize with an empty list, messages will be fetched from backend or added
+  final List<Map<String, dynamic>> _messages = [];
+
+  // State variable to manage loading indicator
+  bool _isLoading = false; // --- NEW STATE VARIABLE ---
+
+  // Base URL of your Node.js backend
+  final String _baseUrl =
+      'http://10.0.2.2:3000/api/chat'; // Example for Android emulator
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchChatHistory(); // Fetch existing chat history when the widget initializes
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  // --- API Calls ---
+
+  Future<void> _fetchChatHistory() async {
+    try {
+      final response = await http.get(Uri.parse(_baseUrl));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> fetchedMessages = json.decode(response.body);
+        setState(() {
+          _messages.clear(); // Clear existing messages
+          // Convert fetched messages to the format your UI expects
+          for (var msg in fetchedMessages) {
+            _messages.add({
+              'text': msg['message'],
+              'isUser': msg['sender'] == 'user',
+            });
+          }
+        });
+        _scrollToBottom();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Failed to load chat history: ${response.statusCode}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching chat history: $e')),
+      );
+      print('Error fetching chat history: $e');
+    }
+  }
+
+  Future<void> _sendMessage() async {
+    print('DEBUG: Send button tapped, _sendMessage called!');
+    final text = _textEditingController.text.trim();
+    if (text.isEmpty) {
+      print('DEBUG: Message is empty, not sending.');
+      return;
+    }
+
+    // Add user message to UI immediately
+    setState(() {
+      _messages.add({
+        'text': text,
+        'isUser': true,
+      });
+      _isLoading = true; // --- SET LOADING TO TRUE ---
+    });
+    _textEditingController.clear(); // Clear input field
+    _scrollToBottom(); // Scroll to show the new message
+
+    try {
+      final response = await http.post(
+        Uri.parse(_baseUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'message': text}),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final botMessageText = responseData['botMessage']['message'];
+
+        // Add bot message to UI after receiving response
+        setState(() {
+          _messages.add({
+            'text': botMessageText,
+            'isUser': false,
+          });
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Failed to send message: ${response.statusCode}')),
+        );
+        // Optionally, remove the user message if sending failed
+        setState(() {
+          _messages.removeLast();
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error sending message: $e')),
+      );
+      print('Error sending message: $e');
+      // Optionally, remove the user message if sending failed
+      setState(() {
+        _messages.removeLast();
+      });
+    } finally {
+      setState(() {
+        _isLoading = false; // --- SET LOADING TO FALSE IN FINALLY BLOCK ---
+      });
+      _scrollToBottom(); // Scroll again after bot response or error
+    }
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +168,7 @@ class _IndustrychatbotState extends State<Industrychatbot> {
           ),
           Expanded(
             child: ListView.builder(
+              controller: _scrollController, // Assign scroll controller
               padding: EdgeInsets.symmetric(horizontal: paddingval),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
@@ -60,7 +185,7 @@ class _IndustrychatbotState extends State<Industrychatbot> {
             padding: EdgeInsets.all(paddingval),
             child: Row(
               children: [
-                // Attachment icon
+                // Attachment icon (no functionality yet)
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -73,8 +198,9 @@ class _IndustrychatbotState extends State<Industrychatbot> {
                 // Text input field
                 Expanded(
                   child: TextField(
+                    controller: _textEditingController, // Assign controller
                     decoration: InputDecoration(
-                      hintText: 'I have something to ask...',
+                      hintText: '', // --- CHANGED THIS LINE ---
                       fillColor: Colors.grey[200],
                       filled: true,
                       border: OutlineInputBorder(
@@ -84,19 +210,43 @@ class _IndustrychatbotState extends State<Industrychatbot> {
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 10),
                     ),
+                    onSubmitted: _isLoading
+                        ? null // Disable submit when loading
+                        : (_) => _sendMessage(),
                   ),
                 ),
                 const SizedBox(width: 10),
-                // Microphone icon
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color:
-                        const Color(0xFF4CAF50), // Green color for microphone
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.mic, color: Colors.white),
-                ),
+                // Send icon or Loading Indicator
+                _isLoading
+                    ? Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF4CAF50),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const SizedBox(
+                          width: 24, // Match icon size
+                          height: 24, // Match icon size
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: _sendMessage, // Call sendMessage on tap
+                        behavior:
+                            HitTestBehavior.opaque, // Ensure tap detection
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF4CAF50), // Green color
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(Icons.send,
+                              color: Colors.white), // Changed to send icon
+                        ),
+                      ),
               ],
             ),
           ),
@@ -107,7 +257,7 @@ class _IndustrychatbotState extends State<Industrychatbot> {
   }
 }
 
-// Custom widget for displaying chat messages
+// MessageBubble remains the same
 class MessageBubble extends StatelessWidget {
   final String text;
   final bool isUser;
