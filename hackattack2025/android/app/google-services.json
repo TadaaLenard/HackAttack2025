@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "224865790377",
+    "project_id": "heardattack2",
+    "storage_bucket": "heardattack2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224865790377:android:2212f1a24942b493477cb8",
+        "android_client_info": {
+          "package_name": "com.example.hackattack2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdMjEXm3ve7Y6PU2EG_qoGNh1NE8NaPb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
