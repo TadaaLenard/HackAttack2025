@@ -147,8 +147,7 @@ class _SchedulelistState extends State<Schedulelist> {
             ),
             const GreenElevatedButton(
               text: "Create New Schedule", // Changed button text
-              navigateTo: AppRoutes
-                  .addsensor, // This route might need to be adjusted for 'add schedule'
+              navigateTo: AppRoutes.addschedule,
             ),
           ],
         ),

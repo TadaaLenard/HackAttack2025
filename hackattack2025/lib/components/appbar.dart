@@ -24,7 +24,11 @@ class _IndustryappbarState extends State<Industryappbar> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Logo'),
+              Image.asset(
+                'assets/images/logo.png',
+                width: 70,
+                fit: BoxFit.fitWidth,
+              ),
               Row(
                 children: [
                   IconButton(
